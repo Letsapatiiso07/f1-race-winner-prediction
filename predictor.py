@@ -71,10 +71,15 @@ class F1Predictor:
         return self._score(feats[(feats['season'] == season) & (feats['round'] == rnd)])
 
     def driver_stats(self, code):
-        """Career numbers in the data for one driver code."""
-        rows = self.races[(self.races['driver_code'] == code) & self.races['position'].notna()]
-        if rows.empty:
+        """Career numbers in the data for the latest driver with this code.
+
+        Codes get reused (VER was Vergne before Verstappen), so match on driver_id.
+        """
+        done = self.races[self.races['position'].notna()].sort_values(['season', 'round'])
+        matches = done[done['driver_code'] == code]
+        if matches.empty:
             return None
+        rows = done[done['driver_id'] == matches['driver_id'].iloc[-1]]
         return {
             'Name': rows['driver_name'].iloc[-1],
             'Seasons': f"{rows['season'].min()}-{rows['season'].max()}",
