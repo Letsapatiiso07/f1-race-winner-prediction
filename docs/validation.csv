@@ -1,0 +1,6 @@
+candidate,log_loss,brier,winner_hit
+random_forest,1.1224,0.5945,0.4091
+logreg_C0.1,1.2387,0.6196,0.4545
+hist_gb_shallow,1.2478,0.6674,0.4091
+logreg_C1,1.2956,0.6536,0.3636
+hist_gb_deeper,1.5918,0.8034,0.4545
